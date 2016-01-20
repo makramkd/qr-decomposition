@@ -242,6 +242,19 @@ nvector<T> operator*(const matrix<T>& M, const nvector<T>& v)
     return result;
 }
 
+// scalar-vector multiplication
+template<typename T>
+nvector<T> operator*(const T& scalar, const nvector<T>& v)
+{
+    nvector<T> result(v.size());
+    for (auto i = 0; i < result.size(); ++i)
+    {
+        result[i] = v[i] * scalar;
+    }
+
+    return result;
+}
+
 template<typename T>
 nvector<T> operator-(const nvector<T>& v1, const nvector<T>& v2)
 {
@@ -257,6 +270,32 @@ nvector<T> operator-(const nvector<T>& v1, const nvector<T>& v2)
     }
 
     return result;
+}
+
+template<typename T>
+std::enable_if<std::is_floating_point<T>::value>::type
+inner_product(const nvector<T>& v1, const nvector<T>& v2)
+{
+    // naive algorithm for an inner product
+    T result = static_cast<T>(0);
+    for (auto i = v1.begin(), i2 = v2.begin(); i != v1.end(), i2 != v2.end(); ++i, ++i2)
+    {
+        result += (*i) * (*i2);
+    }
+
+    return result;
+}
+
+/**
+ *
+ * Project the vector a onto the line
+ * spanned by the vector e.
+ * */
+template<typename T>
+nvector<std::enable_if<std::is_floating_point<T>::value>::type>
+proj(const nvector<T>& e, const nvector<T>& a)
+{
+    return (inner_product(e, a) / inner_product(e, e)) * e;
 }
 
 #endif /* matrix_hpp */
