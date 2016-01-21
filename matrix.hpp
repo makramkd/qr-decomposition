@@ -96,6 +96,11 @@ struct matrix<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
     {
         std::vector<std::vector<T>> result;
 
+        for (size_type i = 0; i < columns; ++i)
+        {
+            result.push_back(getColumn(i));
+        }
+
         return result;
     }
 
@@ -108,6 +113,11 @@ struct matrix<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
     {
         std::vector<std::vector<T>> result;
 
+        for (size_type i = 0; i < rows; ++i)
+        {
+            result.push_back(getRow(i));
+        }
+
         return result;
     }
 private:
@@ -119,12 +129,22 @@ private:
     {
         std::vector<T> result;
 
+        for (size_type i = 0; i < columns; ++i)
+        {
+            result.push_back(this->operator()(rowIndex, i));
+        }
+
         return result;
     }
 
     std::vector<T> getColumn(size_type columnIndex) const
     {
         std::vector<T> result;
+
+        for (size_type i = 0; i < rows; ++i)
+        {
+            result.push_back(this->operator()(i, columnIndex));
+        }
 
         return result;
     }
