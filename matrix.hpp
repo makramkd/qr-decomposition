@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
+#include "nvector.hpp"
 
 // fwd declaration: in order to use enable_if
 template<typename, typename = void> struct matrix;
@@ -85,11 +86,48 @@ struct matrix<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
     {
         return vec;
     }
-    
+
+    /*
+     * Extract the columns from this matrix into a
+     * vector of vectors so that they can be used in other
+     * routines (such as orthogonalization).
+     */
+    std::vector<std::vector<T>> columnCollection() const
+    {
+        std::vector<std::vector<T>> result;
+
+        return result;
+    }
+
+    /*
+     * Extract the rows from this matrix into a vector of
+     * vectors so that they can be used in other routines
+     * (such as orthogonalization).
+     */
+    std::vector<std::vector<T>> rowCollection() const
+    {
+        std::vector<std::vector<T>> result;
+
+        return result;
+    }
 private:
     std::vector<T> vec;
     const size_type rows;
     const size_type columns;
+
+    std::vector<T> getRow(size_type rowIndex) const
+    {
+        std::vector<T> result;
+
+        return result;
+    }
+
+    std::vector<T> getColumn(size_type columnIndex) const
+    {
+        std::vector<T> result;
+
+        return result;
+    }
 };
 
 template<typename T>
