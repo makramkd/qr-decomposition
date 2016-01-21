@@ -273,14 +273,18 @@ nvector<T> operator-(const nvector<T>& v1, const nvector<T>& v2)
 }
 
 template<typename T>
-std::enable_if<std::is_floating_point<T>::value>::type
+typename std::enable_if<std::is_floating_point<T>::value, T>::type
 inner_product(const nvector<T>& v1, const nvector<T>& v2)
 {
+    if (v1.size() != v2.size()) {
+        throw std::invalid_argument("Vectors must be of the same size");
+    }
+
     // naive algorithm for an inner product
     T result = static_cast<T>(0);
-    for (auto i = v1.begin(), i2 = v2.begin(); i != v1.end(), i2 != v2.end(); ++i, ++i2)
+    for (auto i = 0; i < v1.size(); ++i)
     {
-        result += (*i) * (*i2);
+        result += v1[i] * v2[i];
     }
 
     return result;
@@ -292,7 +296,7 @@ inner_product(const nvector<T>& v1, const nvector<T>& v2)
  * spanned by the vector e.
  * */
 template<typename T>
-nvector<std::enable_if<std::is_floating_point<T>::value>::type>
+nvector<typename std::enable_if<std::is_floating_point<T>::value, T>::type>
 proj(const nvector<T>& e, const nvector<T>& a)
 {
     return (inner_product(e, a) / inner_product(e, e)) * e;
