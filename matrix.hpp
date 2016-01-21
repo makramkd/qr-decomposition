@@ -272,9 +272,14 @@ nvector<T> operator-(const nvector<T>& v1, const nvector<T>& v2)
     return result;
 }
 
-template<typename T>
+/*
+ * An almost general inner product template function: if the
+ * nvector has complex numbers inside it this can be the standard
+ * inner product used if we're working with complex numbers.
+ */
+template<typename T, typename BinaryFunc>
 typename std::enable_if<std::is_floating_point<T>::value, T>::type
-inner_product(const nvector<T>& v1, const nvector<T>& v2)
+inner_product(const nvector<T>& v1, const nvector<T>& v2, BinaryFunc func)
 {
     if (v1.size() != v2.size()) {
         throw std::invalid_argument("Vectors must be of the same size");
@@ -284,7 +289,7 @@ inner_product(const nvector<T>& v1, const nvector<T>& v2)
     T result = static_cast<T>(0);
     for (auto i = 0; i < v1.size(); ++i)
     {
-        result += v1[i] * v2[i];
+        result += func(v1[i], v2[i]);
     }
 
     return result;
@@ -295,11 +300,12 @@ inner_product(const nvector<T>& v1, const nvector<T>& v2)
  * Project the vector a onto the line
  * spanned by the vector e.
  * */
-template<typename T>
+template<typename T, typename BinaryFunc>
 nvector<typename std::enable_if<std::is_floating_point<T>::value, T>::type>
-proj(const nvector<T>& e, const nvector<T>& a)
+proj(const nvector<T>& e, const nvector<T>& a, BinaryFunc func)
 {
-    return (inner_product(e, a) / inner_product(e, e)) * e;
+    return (inner_product(e, a, func) / inner_product(e, e, func)) * e;
 }
+
 
 #endif /* matrix_hpp */

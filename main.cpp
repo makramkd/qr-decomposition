@@ -17,5 +17,7 @@ int main() {
     std::cout << "Vector 2:" << std::endl;
     std::cout << nvector2 << std::endl;
 
-    std::cout << "The inner product (standard) : " << inner_product(nvector1, nvector2) << std::endl;
+    std::cout << "The inner product (standard) : " << inner_product(nvector1, nvector2, [](double x, double y) {
+        return x * y;
+    }) << std::endl;
 }
