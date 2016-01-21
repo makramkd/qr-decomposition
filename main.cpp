@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include "matrix.hpp"
+#include "nvector.hpp"
+#include "ops.hpp"
 
 int main() {
     nvector<double> nvector1(3), nvector2(3);
