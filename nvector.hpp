@@ -15,13 +15,15 @@ template<typename, typename = void> struct nvector;
 template<typename T>
 struct nvector<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
 
-    nvector(unsigned N)
+    typedef typename matrix<T>::size_type size_type;
+
+    nvector(size_type N)
             : vec(N, 1)
     {
 
     }
 
-    nvector(unsigned N, T filler)
+    nvector(size_type N, T filler)
             : vec(N, 1, filler)
     {
 
@@ -33,23 +35,23 @@ struct nvector<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
 
     }
 
-    nvector(unsigned N, std::initializer_list<T> lst)
+    nvector(size_type N, std::initializer_list<T> lst)
             : vec(N, 1, lst)
     {
 
     }
 
-    T& operator[](unsigned int i)
+    T& operator[](size_type int i)
     {
         return vec(i, 0);
     }
 
-    const T& operator[](unsigned int i) const
+    const T& operator[](size_type int i) const
     {
         return vec(i, 0);
     }
 
-    unsigned int size() const
+    size_type int size() const
     {
         return vec.rowCount();
     }
