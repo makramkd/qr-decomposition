@@ -113,5 +113,26 @@ private:
     const size_type columns;
 };
 
-
+template<typename T>
+std::ostream& operator<<(std::ostream& stream, const matrix<T>& mat)
+{
+    using size_type = typename matrix<T>::size_type;
+    stream << "[";
+    for (size_type i = 0; i < mat.rowCount(); ++i)
+    {
+        for (size_type j = 0; j < mat.colCount(); ++j)
+        {
+            if (j != mat.colCount() - 1) {
+                stream << mat(i, j) << ", ";
+            } else {
+                stream << mat(i, j);
+            }
+        }
+        if (i != mat.rowCount() - 1) {
+            stream << ";" << std::endl;
+        }
+    }
+    stream << "]";
+    return stream;
+}
 #endif /* matrix_hpp */

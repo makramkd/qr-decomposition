@@ -92,28 +92,6 @@ std::ostream& operator<<(std::ostream& stream, const nvector<T>& nvec)
     return stream;
 }
 
-template<typename T>
-std::ostream& operator<<(std::ostream& stream, const matrix<T>& mat)
-{
-    stream << "[";
-    for (auto i = 0; i < mat.rowCount(); ++i)
-    {
-        for (auto j = 0; j < mat.colCount(); ++j)
-        {
-            if (j != mat.colCount() - 1) {
-                stream << mat(i, j) << ", ";
-            } else {
-                stream << mat(i, j);
-            }
-        }
-        if (i != mat.rowCount() - 1) {
-            stream << ";" << std::endl;
-        }
-    }
-    stream << "]";
-    return stream;
-}
-
 // overload operator* for matrix-vector multiplication
 template<typename T>
 nvector<T> operator*(const matrix<T>& M, const nvector<T>& v)

@@ -51,7 +51,7 @@ matrix<T> transpose(const matrix<T>& mat)
 {
     using size_type = typename matrix<T>::size_type;
 
-    matrix<T> result(mat.rowCount(), mat.colCount());
+    matrix<T> result(mat.colCount(), mat.rowCount());
     for (size_type i = 0; i < result.rowCount(); ++i)
     {
         for (size_type j = 0; j < result.colCount(); ++j)
@@ -59,5 +59,7 @@ matrix<T> transpose(const matrix<T>& mat)
             result(i, j) = mat(j, i);
         }
     }
+
+    return result;
 }
 #endif //QR_DECOMPOSITION_OPS_HPP
