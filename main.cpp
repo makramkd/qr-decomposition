@@ -22,7 +22,7 @@ int main() {
         return x * y;
     }) << std::endl;
 
-    matrix<double> mat(3, 3, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+    matrix<double> mat(3, 4, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
 
     auto transpose_mat = transpose(mat);
 
