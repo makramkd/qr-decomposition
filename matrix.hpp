@@ -85,28 +85,7 @@ struct matrix<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
     {
         return vec;
     }
-
-    T infnorm() const
-    {
-        // store rowsums in v
-        std::vector<T> v(rows);
-        for (auto i = 0; i < rows; ++i)
-        {
-            std::vector<T> temp(columns);
-            for (auto j = 0; j < columns; ++j)
-            {
-                temp[j] = this->operator()(i, j);
-            }
-            // transform everything into positive
-            std::for_each(temp.begin(), temp.end(), [](T value) -> T{
-                return std::abs(value);
-            });
-            // accumulate
-            v[i] = std::accumulate(temp.begin(), temp.end(), 0.0);
-        }
-        return *(std::max_element(v.begin(), v.end()));
-    }
-
+    
 private:
     std::vector<T> vec;
     const size_type rows;
