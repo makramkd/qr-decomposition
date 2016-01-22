@@ -13,9 +13,12 @@ template<typename, typename = void> struct nvector;
 // partial specialization of matrix in order to add some familiar operator[] syntax
 // rather than using operator() for both matrices and vectors
 template<typename T>
-struct nvector<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
+struct nvector<T,
+        typename std::enable_if<std::is_arithmetic<T>::value || std::is_same<T, std::complex<T>>::value>::type> {
 
-    typedef typename matrix<T>::container container;
+    template<typename U>
+    using container = std::vector<T>;
+
     typedef typename matrix<T>::size_type size_type;
 
     nvector(size_type N)
@@ -65,15 +68,6 @@ struct nvector<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
     typename container<T>::const_iterator end() const
     {
         return vec.data().cend();
-    }
-
-    T inf_norm() const
-    {
-        container<T> data(vec.data());
-        std::for_each(data.begin(), data.end(), [](T value) -> T {
-            return std::abs(value);
-        });
-        return *(std::max_element(data.begin(), data.end()));
     }
 private:
     matrix<T> vec;
