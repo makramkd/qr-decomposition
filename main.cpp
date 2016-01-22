@@ -14,7 +14,7 @@ int main() {
     }
 
     std::cout << "Vector 1:" << std::endl;
-    std::cout << nvector1 << std::endl;
+    std::cout << nvector1 << " " << nvector1.norm() << std::endl;
     std::cout << "Vector 2:" << std::endl;
     std::cout << nvector2 << std::endl;
 

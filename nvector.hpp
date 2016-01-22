@@ -5,6 +5,7 @@
 #ifndef QR_DECOMPOSITION_NVECTOR_HPP
 #define QR_DECOMPOSITION_NVECTOR_HPP
 
+#include <numeric>
 #include "matrix.hpp"
 
 // forward declaration
@@ -65,6 +66,17 @@ struct nvector<T,
     typename container<T>::const_iterator end() const
     {
         return vec.data().cend();
+    }
+
+    T norm() const
+    {
+        auto data = vec.data();
+        // map
+        std::for_each(data.begin(), data.end(), [](T value) {
+            return value * value;
+        });
+        // fold
+        return std::sqrt(std::accumulate(data.begin(), data.end(), static_cast<T>(0)));
     }
 private:
     matrix<T> vec;
