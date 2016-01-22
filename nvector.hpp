@@ -16,9 +16,6 @@ template<typename T>
 struct nvector<T,
         typename std::enable_if<std::is_arithmetic<T>::value || std::is_same<T, std::complex<T>>::value>::type> {
 
-    template<typename U>
-    using container = std::vector<T>;
-
     typedef typename matrix<T>::size_type size_type;
 
     nvector(size_type N)

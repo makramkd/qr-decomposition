@@ -1,9 +1,10 @@
 #ifndef matrix_hpp
 #define matrix_hpp
 
-#include <vector>
 #include <algorithm>
 #include <complex>
+
+#include "common.hpp"
 
 // fwd declaration: in order to use enable_if
 template<typename, typename = void> struct matrix;
@@ -13,11 +14,7 @@ template<typename T>
 struct matrix<T,
         typename std::enable_if<std::is_arithmetic<T>::value || std::is_same<T, std::complex<T>>::value>::type>
 {
-
-    template<typename U>
-    using container = std::vector<U>;
-
-    typedef unsigned int size_type;
+    typedef unsigned long size_type;
 
     matrix(size_type N, size_type M)
     : vec(N * M),
