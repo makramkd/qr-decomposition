@@ -5,6 +5,8 @@
 #ifndef QR_DECOMPOSITION_OPS_HPP
 #define QR_DECOMPOSITION_OPS_HPP
 
+#include <assert.h>
+
 #include "nvector.hpp"
 
 /*
@@ -59,6 +61,46 @@ matrix<T> transpose(const matrix<T>& mat)
             result(i, j) = mat(j, i);
         }
     }
+
+    return result;
+}
+
+/**
+ * Given a set of vectors that constitute the columns of a
+ * matrix, construct the columns of the matrix.
+ */
+template<typename T>
+matrix<T> construct_from_column_vectors(const container<container<T>>& basis)
+{
+
+#ifdef DEBUG
+    // check if all the vectors are the same size
+    auto size = basis.front().size();
+    for (auto i = basis.begin(); i != basis.end(); ++i)
+    {
+        assert(size == i->size());
+    }
+#endif
+
+    matrix<T> result(basis.front().size(), basis.size());
+
+    return result;
+}
+
+template<typename T>
+matrix<T> construct_from_row_vectors(const container<container<T>>& basis)
+{
+
+#ifdef DEBUG
+    // check if all the vectors are the same size
+    auto size = basis.front().size();
+    for (auto i = basis.begin(); i != basis.end(); ++i)
+    {
+        assert(size == i->size());
+    }
+#endif
+
+    matrix<T> result(basis.size(), basis.front().size());
 
     return result;
 }
