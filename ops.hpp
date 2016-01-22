@@ -104,4 +104,15 @@ matrix<T> construct_from_row_vectors(const container<container<T>>& basis)
 
     return result;
 }
+
+/**
+ * Given a basis of vectors return the orthonormal basis
+ * associated with it. This is essentially the Gram-Schmidt
+ * procedure.
+ */
+template<typename T>
+container<container<T>> orthonormalize(const container<container<T>>& basis)
+{
+
+}
 #endif //QR_DECOMPOSITION_OPS_HPP
