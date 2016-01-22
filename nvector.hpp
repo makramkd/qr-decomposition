@@ -15,6 +15,7 @@ template<typename, typename = void> struct nvector;
 template<typename T>
 struct nvector<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
 
+    typedef typename matrix<T>::container container;
     typedef typename matrix<T>::size_type size_type;
 
     nvector(size_type N)
@@ -41,34 +42,34 @@ struct nvector<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
 
     }
 
-    T& operator[](size_type int i)
+    T& operator[](size_type i)
     {
         return vec(i, 0);
     }
 
-    const T& operator[](size_type int i) const
+    const T& operator[](size_type i) const
     {
         return vec(i, 0);
     }
 
-    size_type int size() const
+    size_type size() const
     {
         return vec.rowCount();
     }
 
-    typename std::vector<T>::const_iterator begin() const
+    typename container<T>::const_iterator begin() const
     {
         return vec.data().cbegin();
     }
 
-    typename std::vector<T>::const_iterator end() const
+    typename container<T>::const_iterator end() const
     {
         return vec.data().cend();
     }
 
     T inf_norm() const
     {
-        std::vector<T> data(vec.data());
+        container<T> data(vec.data());
         std::for_each(data.begin(), data.end(), [](T value) -> T {
             return std::abs(value);
         });

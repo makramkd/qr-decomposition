@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
-#include "nvector.hpp"
 
 // fwd declaration: in order to use enable_if
 template<typename, typename = void> struct matrix;
@@ -13,6 +12,9 @@ template<typename, typename = void> struct matrix;
 // use matrices only for types that are arithmetic (i.e number types)
 template<typename T>
 struct matrix<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
+
+    template<typename U>
+    using container = std::vector<U>;
 
     typedef unsigned int size_type;
 
@@ -51,7 +53,7 @@ struct matrix<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
         }
     }
 
-    matrix(size_type N, size_type M, std::vector<T> vector)
+    matrix(size_type N, size_type M, container<T> vector)
     : vec(N * M),
       rows(N),
       columns(M)
@@ -82,7 +84,7 @@ struct matrix<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
     }
 
     // data interface: return internal data
-    std::vector<T> data() const
+    container<T> data() const
     {
         return vec;
     }
@@ -92,9 +94,9 @@ struct matrix<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
      * vector of vectors so that they can be used in other
      * routines (such as orthogonalization).
      */
-    std::vector<std::vector<T>> columnCollection() const
+    container<container<T>> columnCollection() const
     {
-        std::vector<std::vector<T>> result;
+        container<container<T>> result;
 
         for (size_type i = 0; i < columns; ++i)
         {
@@ -109,9 +111,9 @@ struct matrix<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
      * vectors so that they can be used in other routines
      * (such as orthogonalization).
      */
-    std::vector<std::vector<T>> rowCollection() const
+    container<container<T>> rowCollection() const
     {
-        std::vector<std::vector<T>> result;
+        container<container<T>> result;
 
         for (size_type i = 0; i < rows; ++i)
         {
@@ -121,13 +123,13 @@ struct matrix<T, typename std::enable_if<std::is_arithmetic<T>::value>::type> {
         return result;
     }
 private:
-    std::vector<T> vec;
+    container<T> vec;
     const size_type rows;
     const size_type columns;
 
-    std::vector<T> getRow(size_type rowIndex) const
+    container<T> getRow(size_type rowIndex) const
     {
-        std::vector<T> result;
+        container<T> result;
 
         for (size_type i = 0; i < columns; ++i)
         {
@@ -137,9 +139,9 @@ private:
         return result;
     }
 
-    std::vector<T> getColumn(size_type columnIndex) const
+    container<T> getColumn(size_type columnIndex) const
     {
-        std::vector<T> result;
+        container<T> result;
 
         for (size_type i = 0; i < rows; ++i)
         {
