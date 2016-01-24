@@ -81,8 +81,15 @@ matrix<T> construct_from_column_vectors(const container<container<T>>& basis)
         assert(size == i->size());
     }
 #endif
+    using size_type = typename matrix<T>::size_type;
 
     matrix<T> result(basis.front().size(), basis.size());
+
+    for (size_type j = 0; j < basis.size(); ++j) {
+        for (size_type i = 0; i < basis[j].size(); ++i) {
+            result(i, j) = (basis[j])[i];
+        }
+    }
 
     return result;
 }
@@ -99,9 +106,16 @@ matrix<T> construct_from_row_vectors(const container<container<T>>& basis)
         assert(size == i->size());
     }
 #endif
+    using size_type = typename matrix<T>::size_type;
 
     matrix<T> result(basis.size(), basis.front().size());
 
+    for (size_type i = 0; i < basis.size(); ++i) {
+        for (size_type j = 0; j < basis[i].size(); ++j) {
+            result(i, j) = (basis[i])[j];
+        }
+    }
+    
     return result;
 }
 
