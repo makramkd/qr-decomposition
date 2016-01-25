@@ -89,6 +89,17 @@ struct nvector<T,
         // fold
         return std::sqrt(std::accumulate(data.begin(), data.end(), static_cast<T>(0)));
     }
+
+    static nvector<T> from_container(const container<T>& ctr)
+    {
+        nvector<T> vec(ctr.size());
+
+        for (size_type i = 0; i < vec.size(); ++i) {
+            vec[i] = ctr[i];
+        }
+
+        return vec;
+    }
 private:
     matrix<T> vec;
 };
