@@ -68,6 +68,11 @@ struct nvector<T,
         return vec.data().cend();
     }
 
+    container<T> data() const
+    {
+        return vec.data();
+    }
+
     T norm() const
     {
         auto data = vec.data();
