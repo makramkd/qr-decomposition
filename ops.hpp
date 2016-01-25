@@ -112,10 +112,10 @@ matrix<T> construct_from_row_vectors(const container<container<T>>& basis)
 
     for (size_type i = 0; i < basis.size(); ++i) {
         for (size_type j = 0; j < basis[i].size(); ++j) {
-            result(i, j) = (basis[i])[j];
+            result(j, i) = (basis[i])[j];
         }
     }
-    
+
     return result;
 }
 
@@ -125,8 +125,24 @@ matrix<T> construct_from_row_vectors(const container<container<T>>& basis)
  * procedure.
  */
 template<typename T>
-container<container<T>> orthonormalize(const container<container<T>>& basis)
+container<nvector<T>> orthonormalize(const container<nvector<T>>& basis)
 {
+#ifdef DEBUG
+    // check if all the vectors are the same size
+    auto size = basis.front().size();
+    for (auto i = basis.begin(); i != basis.end(); ++i)
+    {
+        assert(size == i->size());
+    }
+#endif
 
+    using size_type = typename container<T>::size_type ;
+    // orthonormal basis to return
+    container<nvector<T>> result;
+    // the size of a vector in this basis
+    auto size = basis.front().size();
+
+
+    return result;
 }
 #endif //QR_DECOMPOSITION_OPS_HPP

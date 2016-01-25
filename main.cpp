@@ -4,28 +4,12 @@
 #include "ops.hpp"
 
 int main() {
-    nvector<double> nvector1(3), nvector2(3);
-    for (int i = 0; i < nvector1.size(); ++i) {
-        nvector1[i] = i;
-    }
+    container<container<float>> basis;
+    basis.push_back({1.5, 2.5, 3.5});
+    basis.push_back({3.5, 4.5, 5.5});
+    basis.push_back({3.5, 8.2, 1.2});
 
-    for (int i = 0; i < nvector2.size(); ++i) {
-        nvector2[i] = i * i + 1;
-    }
+    auto mat = construct_from_column_vectors(basis);
 
-    std::cout << "Vector 1:" << std::endl;
-    std::cout << nvector1 << " " << nvector1.norm() << std::endl;
-    std::cout << "Vector 2:" << std::endl;
-    std::cout << nvector2 << std::endl;
-
-    std::cout << "The inner product (standard) : " << inner_product(nvector1, nvector2, [](double x, double y) {
-        return x * y;
-    }) << std::endl;
-
-    matrix<double> mat(3, 4, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
-
-    auto transpose_mat = transpose(mat);
-
-    std::cout << "Before transpose: mat = \n" << mat << std::endl;
-    std::cout << "After transpose: mat^T = \n" << transpose_mat << std::endl;
+    std::cout << "Matrix: \n" << mat << "\n";
 }
