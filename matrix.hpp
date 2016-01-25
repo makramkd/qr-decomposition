@@ -61,6 +61,15 @@ struct matrix<T,
         }
     }
 
+    matrix& operator=(const matrix& other)
+    {
+        vec = other.vec;
+        rows = other.rows;
+        columns = other.columns;
+
+        return *this;
+    }
+
     T& operator()(size_type i, size_type j)
     {
         return vec[i * columns + j];
@@ -122,8 +131,8 @@ struct matrix<T,
     }
 private:
     container<T> vec;
-    const size_type rows;
-    const size_type columns;
+    size_type rows;
+    size_type columns;
 
     container<T> getRow(size_type rowIndex) const
     {

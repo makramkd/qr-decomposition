@@ -43,6 +43,12 @@ struct nvector<T,
 
     }
 
+    nvector& operator=(const nvector& other)
+    {
+        vec = other.vec;
+        return *this;
+    }
+
     T& operator[](size_type i)
     {
         return vec(i, 0);
