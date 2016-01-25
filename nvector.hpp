@@ -83,8 +83,8 @@ struct nvector<T,
     {
         auto data = vec.data();
         // map
-        std::for_each(data.begin(), data.end(), [](T value) {
-            return value * value;
+        std::for_each(data.begin(), data.end(), [](T& value) {
+            value = value * value;
         });
         // fold
         return std::sqrt(std::accumulate(data.begin(), data.end(), static_cast<T>(0)));
