@@ -148,9 +148,10 @@ container<nvector<T>> orthonormalize(const container<nvector<T>>& basis, InnerPr
         for (size_type j = 0; j < i; ++j) {
             projection = projection - proj(result[j], basis[i], inner_prod);
         }
-        result.push_back(basis[i] - projection);
+        result.push_back(basis[i] + projection);
     }
 
+    // pseudo-map
     std::for_each(result.begin(), result.end(), [](nvector<T>& vec) {
         vec = (1 / vec.norm()) * vec;
     });
@@ -158,8 +159,8 @@ container<nvector<T>> orthonormalize(const container<nvector<T>>& basis, InnerPr
     return result;
 }
 
-template<typename T>
-container<T> check_orthonormality(const container<nvector<T>>& basis)
+template<typename T, typename InnerProd>
+T check_orthonormality(const container<nvector<T>>& basis, InnerProd inner_prod)
 {
 #ifdef DEBUG
     // check if all the vectors are the same size
@@ -175,7 +176,9 @@ container<T> check_orthonormality(const container<nvector<T>>& basis)
     T sum = 0;
     auto front = basis.front();
     for (auto i = 1; i < basis.size(); ++i) {
-        sum += inner_product()
+        sum += inner_product(front, basis[i], inner_prod);
     }
+
+    return sum;
 }
 #endif //QR_DECOMPOSITION_OPS_HPP
