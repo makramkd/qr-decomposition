@@ -123,8 +123,8 @@ matrix<T> construct_from_row_vectors(const container<container<T>>& basis)
  * associated with it. This is essentially the Gram-Schmidt
  * procedure.
  */
-template<typename T>
-container<nvector<T>> orthonormalize(const container<nvector<T>>& basis)
+template<typename T, typename InnerProd>
+container<nvector<T>> orthonormalize(const container<nvector<T>>& basis, InnerProd inner_prod)
 {
 #ifdef DEBUG
     // check if all the vectors are the same size
@@ -146,17 +146,36 @@ container<nvector<T>> orthonormalize(const container<nvector<T>>& basis)
     for (size_type i = 1; i < basis.size(); ++i) {
         nvector<T> projection(size, 0);
         for (size_type j = 0; j < i; ++j) {
-            projection = projection - proj(result[j], basis[i], [](T v1, T v2) {
-                return v1 * v2;
-            });
+            projection = projection - proj(result[j], basis[i], inner_prod);
         }
         result.push_back(basis[i] - projection);
     }
 
-    std::for_each(result.begin(), result.end(), [](nvector<T> vec) {
-        return (1 / vec.norm()) * vec;
+    std::for_each(result.begin(), result.end(), [](nvector<T>& vec) {
+        vec = (1 / vec.norm()) * vec;
     });
 
     return result;
+}
+
+template<typename T>
+container<T> check_orthonormality(const container<nvector<T>>& basis)
+{
+#ifdef DEBUG
+    // check if all the vectors are the same size
+    auto size = basis.front().size();
+    for (auto i = basis.begin(); i != basis.end(); ++i)
+    {
+        assert(size == i->size());
+    }
+#endif
+
+    // do a very basic check: take the inner product of the first vec
+    // with the rest
+    T sum = 0;
+    auto front = basis.front();
+    for (auto i = 1; i < basis.size(); ++i) {
+        sum += inner_product()
+    }
 }
 #endif //QR_DECOMPOSITION_OPS_HPP
