@@ -14,9 +14,12 @@ int main() {
     cout << "Basis before orthonormalization: \n";
     for (auto i = basis.begin(); i != basis.end(); ++i) {
         cout << *i << "\n";
+        cout << i->norm() << "\n";
     }
 
-    auto orthonormal = orthonormalize(basis);
+    auto orthonormal = orthonormalize(basis, [](float v1, float v2) {
+        return v1 * v2;
+    });
 
     cout << "Orthonormalized Basis: \n";
     for (auto i = orthonormal.begin(); i != orthonormal.end(); ++i) {
