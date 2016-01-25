@@ -162,4 +162,21 @@ nvector<T> operator-(const nvector<T>& v1, const nvector<T>& v2)
 
     return result;
 }
+
+template<typename T>
+nvector<T> operator+(const nvector<T>& v1, const nvector<T>& v2)
+{
+    // dim check
+    if (v1.size() != v2.size()) {
+        throw std::invalid_argument("Vector dimensions are not equal");
+    }
+
+    nvector<T> result(v1.size());
+    for (auto i = 0; i < v1.size(); ++i)
+    {
+        result[i] = v1[i] + v2[i];
+    }
+
+    return result;
+}
 #endif //QR_DECOMPOSITION_NVECTOR_HPP
