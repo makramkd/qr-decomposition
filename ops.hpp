@@ -97,7 +97,6 @@ matrix<T> construct_from_column_vectors(const container<container<T>>& basis)
 template<typename T>
 matrix<T> construct_from_row_vectors(const container<container<T>>& basis)
 {
-
 #ifdef DEBUG
     // check if all the vectors are the same size
     auto size = basis.front().size();
@@ -142,6 +141,21 @@ container<nvector<T>> orthonormalize(const container<nvector<T>>& basis)
     // the size of a vector in this basis
     auto size = basis.front().size();
 
+    // do the first vector before the loop
+    result.push_back(basis.front());
+    for (size_type i = 1; i < basis.size(); ++i) {
+        nvector<T> projection(size, 0);
+        for (size_type j = 0; j < i; ++j) {
+            projection = projection - proj(result[j], basis[i], [](T v1, T v2) {
+                return v1 * v2;
+            });
+        }
+        result.push_back(basis[i] - projection);
+    }
+
+    std::for_each(result.begin(), result.end(), [](nvector<T> vec) {
+        return (1 / vec.norm()) * vec;
+    });
 
     return result;
 }
