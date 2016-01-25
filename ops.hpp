@@ -70,9 +70,8 @@ matrix<T> transpose(const matrix<T>& mat)
  * matrix, construct the columns of the matrix.
  */
 template<typename T>
-matrix<T> construct_from_column_vectors(const container<container<T>>& basis)
+matrix<T> construct_from_column_vectors(const container<nvector<T>>& basis)
 {
-
 #ifdef DEBUG
     // check if all the vectors are the same size
     auto size = basis.front().size();
@@ -95,7 +94,7 @@ matrix<T> construct_from_column_vectors(const container<container<T>>& basis)
 }
 
 template<typename T>
-matrix<T> construct_from_row_vectors(const container<container<T>>& basis)
+matrix<T> construct_from_row_vectors(const container<nvector<T>>& basis)
 {
 #ifdef DEBUG
     // check if all the vectors are the same size
